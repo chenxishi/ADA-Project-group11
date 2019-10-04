@@ -1,0 +1,54 @@
+---
+title: "GR5291 ADA Fall2019 Project"
+author: "Group11"
+output: html_document
+---
+
+```{r message=FALSE, warning=FALSE}
+# package used
+library(dplyr)
+library(ggplot2)
+```
+
+```{r}
+abNYC <- read.csv("AB_NYC_2019.csv")
+head(abNYC)
+dim(abNYC)
+names(abNYC)
+```
+
+```{r}
+# check the missing valus
+colSums(is.na(abNYC))
+```
+
+# EDA
+
+```{r}
+sapply(abNYC, class)
+```
+
+
+```{r}
+# room_type
+table(abNYC$room_type)
+
+#barplot(table(abNYC$room_type))
+ggplot() + geom_bar(mapping = aes(abNYC$room_type))
+
+```
+
+
+```{r}
+# neighbourhood_group
+table(abNYC$neighbourhood_group) %>% sort(decreasing = TRUE)
+```
+
+```{r}
+# Minimum of nights (<14) per Room Type
+min_nights <- 14
+ggplot(abNYC[abNYC$minimum_nights < min_nights,], 
+       aes(x=room_type, y=minimum_nights, color=room_type)) +
+  geom_boxplot()
+```
+
